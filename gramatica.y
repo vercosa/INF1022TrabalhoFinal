@@ -4,15 +4,15 @@
       #include <string.h>
 
 int yylex();
-
+int linha = 1;
 void yyerror(const char *s){
-      fprintf(stderr, "%s\n", s);
+      fprintf(stderr, "Erro na linha %d: %s\n", linha, s);
    };
 
    FILE *f;
    extern FILE *yyin; 
 
-	int linha = 1;
+	
 	char * varEntrada[50];
 	char * varSaida;
 	int qtdVarEntrada = 0;
@@ -121,6 +121,7 @@ program	: ENTRADA varlist SAIDA varret cmds FIM {
 varlist	:	varlist ID {
 			char *entrada = malloc(strlen($1) + strlen($2) + 5);
 			sprintf(entrada, "%s, %s = 0", $1, $2);
+			linha++;
 			insereVariavelEntrada ($2);
 			$$ = entrada;
 }
@@ -190,7 +191,7 @@ cmd : ID IGUAL ID {
 	checarVariavelExiste  ($2);
 	char *seEntaoSenao = malloc(strlen($2) + strlen($4) + strlen($6) + 24);
 	sprintf(seEntaoSenao, "\tif(%s){\n\t%s\t}\n\telse {\n\t%s\t}\n", $2, $4, $6);
-	linha++;
+
 	linha++;
 	$$ = seEntaoSenao;
 }
