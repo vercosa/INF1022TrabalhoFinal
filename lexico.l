@@ -20,7 +20,7 @@ VEZES return(VEZES);
 ")" return(FECHAPARENTESE);
 "="	return(IGUAL);
 [a-zA-Z]	{yylval.str = strdup(yytext); return (ID);}
-. {}
+[ \t\n]+ { }
 %%
 
 int yywrap() {}
